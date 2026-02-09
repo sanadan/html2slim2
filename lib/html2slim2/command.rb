@@ -1,9 +1,8 @@
 require 'optparse'
-require 'html2slim'
+require 'html2slim2'
 
-module HTML2Slim
+module HTML2Slim2
   class Command
-
     def initialize(args)
       @args    = args
       @options = {}
@@ -85,7 +84,7 @@ module HTML2Slim
       else
         slim_file = destination || slim_file
       end
-      
+
       fail(ArgumentError, "Source and destination files can't be the same.") if @options[:input] != '-' && file == slim_file
 
       in_file = if @options[:input] == "-"
@@ -95,7 +94,7 @@ module HTML2Slim
       end
 
       @options[:output] = slim_file && slim_file != '-' ? File.open(slim_file, 'w') : $stdout
-      @options[:output].puts HTML2Slim.convert!(in_file, format)
+      @options[:output].puts HTML2Slim2.convert!(in_file, format)
       @options[:output].close
 
       File.delete(file) if @options[:delete]

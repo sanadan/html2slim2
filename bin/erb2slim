@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 $:.unshift File.dirname(__FILE__) + '/../lib'
-require 'html2slim/command'
+require 'html2slim2/command'
 
-cmd = HTML2Slim::ERBCommand.new(ARGV)
+cmd = HTML2Slim2::ERBCommand.new(ARGV)
 cmd.run

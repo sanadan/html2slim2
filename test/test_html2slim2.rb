@@ -123,7 +123,7 @@ class TestHTML2Slim < Minitest::Test # rubocop:disable Metrics/ClassLength
     assert_erb_to_slim_with_and_without_leading_dash '<% case @foo %><% when 1 %>1<% when 2 %>2<% else %>3<% end %>', "- case @foo\n- when 1\n  | 1\n- when 2\n  | 2\n- else\n  | 3"
     # while
     assert_erb_to_slim_with_and_without_leading_dash '<% while @foo.next %>NEXT<% end %>', "- while @foo.next\n  | NEXT"
-    # all togheter and mixed
+    # all together and mixed
     assert_erb_to_slim_with_and_without_leading_dash '<% while @foo.next %><% if 1 == 1 %><% for i in @foo.bar %>WORKS<% end %><% end %><% end %>', "- while @foo.next\n  - if 1 == 1\n    - for i in @foo.bar\n      | WORKS"
     # unless
     assert_erb_to_slim_with_and_without_leading_dash '<% unless @foo.done? %>NEXT<% end %>',
@@ -184,13 +184,13 @@ class TestHTML2Slim < Minitest::Test # rubocop:disable Metrics/ClassLength
 
   def assert_valid_from_html?(source)
     html = File.open(source)
-    slim = HTML2Slim.convert!(html)
+    slim = HTML2Slim2.convert!(html)
     assert_instance_of String, Slim::Engine.new.call(slim.to_s)
   end
 
   def assert_valid_from_erb?(source)
     html = File.open(source)
-    slim = HTML2Slim.convert!(html, :erb)
+    slim = HTML2Slim2.convert!(html, :erb)
     assert_instance_of String, Slim::Engine.new.call(slim.to_s)
   end
 end

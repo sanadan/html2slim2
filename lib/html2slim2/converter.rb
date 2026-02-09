@@ -1,6 +1,6 @@
-require_relative 'nokogiri_monkeypatches'
+require_relative 'nokogiri_monkey_patches'
 
-module HTML2Slim
+module HTML2Slim2
   class Converter
     def initialize(html)
       nokogiri = html[..1] == '<!' ? Nokogiri.parse(html) : Nokogiri::HTML.fragment(html)

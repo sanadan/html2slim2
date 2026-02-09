@@ -6,13 +6,16 @@
     "Lulkin",
     "Maiz",
     "omakase",
+    "optparse",
     "Pageview",
+    "popen",
     "raquo",
     "redcar",
     "rubocop",
     "rvmrc",
     "sanadan",
     "templating",
+    "testtask",
     "yardoc"
   ]
 }
