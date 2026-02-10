@@ -1,6 +1,6 @@
 # HTML2Slim2
 
-![Version](https://img.shields.io/gem/v/html2slim2.svg)
+[![Gem Version](https://badge.fury.io/rb/html2slim2.svg)](https://badge.fury.io/rb/html2slim2)
 
 <!--
 [![Build Status](https://travis-ci.org/slim-template/html2slim.png?branch=master)](https://travis-ci.org/slim-template/html2slim)
