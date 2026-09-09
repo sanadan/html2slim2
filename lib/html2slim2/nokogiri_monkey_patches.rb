@@ -39,14 +39,15 @@ class Nokogiri::XML::Element
   BLANK_RE = /\A[[:space:]]*\z/.freeze
 
   def slim(lvl = 0)
-    r = '  ' * lvl
+    indent = '  ' * lvl
 
-    return r + slim_ruby_code(r) if ruby?
+    return indent + slim_ruby_code(indent) if ruby?
 
+    r = indent
     r += name unless skip_tag_name?
     r += slim_id
     r += slim_class
-    r += slim_attributes
+    r += slim_attributes(indent)
     r
   end
 
@@ -80,10 +81,33 @@ class Nokogiri::XML::Element
     has_class? ? ".#{self['class'].to_s.strip.split(/\s+/).join('.')}" : ''
   end
 
-  def slim_attributes
+  def slim_attributes(indent = '')
+    multiline = has_attribute?(HTML2Slim2::MULTILINE_ATTR_MARKER)
+    remove_attribute(HTML2Slim2::MULTILINE_ATTR_MARKER)
     remove_attribute('class')
     remove_attribute('id')
-    has_attributes? ? "[#{attributes_as_html.to_s.strip}]" : ''
+    return '' unless has_attributes?
+
+    if multiline && multiline_attribute_output?
+      slim_multiline_attributes(indent)
+    else
+      "[#{attributes_as_html.to_s.strip}]"
+    end
+  end
+
+  def multiline_attribute_output?
+    attrs = attributes.to_hash
+    attrs.size > 1 || attrs.values.any? { |value| value.to_s.include?("\n") }
+  end
+
+  def slim_multiline_attributes(indent)
+    parts = attributes.map do |attr_name, attr_val|
+      attr_val ? "#{attr_name}=#{html_quote attr_val.to_s}" : attr_name.to_s
+    end
+    return "[#{parts.first}]" if parts.size <= 1
+
+    inner_indent = "#{indent}  "
+    "[\n#{parts.map { |part| "#{inner_indent}#{part}" }.join("\n")}\n#{indent}]"
   end
 
   def has_attributes? # rubocop:disable Naming/PredicatePrefix

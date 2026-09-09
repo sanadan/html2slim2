@@ -62,6 +62,12 @@ class TestHTML2Slim < Minitest::Test # rubocop:disable Metrics/ClassLength
     end
   end
 
+  def test_convert_multiline_tag
+    IO.popen("bin/erb2slim test/fixtures/multiline_tag.erb -", "r") do |f|
+      assert_equal File.read("test/fixtures/multiline_tag.slim"), f.read
+    end
+  end
+
   def test_convert_elsif_block
     IO.popen("bin/erb2slim test/fixtures/erb_elsif.erb -", "r") do |f|
       assert_equal File.read("test/fixtures/erb_elsif.slim"), f.read
@@ -91,6 +97,47 @@ class TestHTML2Slim < Minitest::Test # rubocop:disable Metrics/ClassLength
   def test_data_attributes
     html = '<a href="test" data-param1="var" data-param2="(1 + 1)" data-param3="string"></a>'
     slim = 'a[href="test" data-param1="var" data-param2="(1 + 1)" data-param3="string"]'
+    assert_html_to_slim html, slim
+  end
+
+  def test_multiline_tag_attributes
+    html = <<~HTML
+      <a href="test"
+         title="Hello"
+         data-param="value">Link</a>
+    HTML
+    slim = <<~SLIM.chomp
+      a[
+        href="test"
+        title="Hello"
+        data-param="value"
+      ]
+        | Link
+    SLIM
+    assert_html_to_slim html, slim
+  end
+
+  def test_multiline_tag_attributes_nested
+    html = <<~HTML
+      <div>
+        <a href="test"
+           title="Hello">Link</a>
+      </div>
+    HTML
+    slim = <<~SLIM.chomp
+      div
+        a[
+          href="test"
+          title="Hello"
+        ]
+          | Link
+    SLIM
+    assert_html_to_slim html, slim
+  end
+
+  def test_multiline_attribute_value
+    html = "<div title=\"foo\nbar\"></div>"
+    slim = "div[title=\"foo\nbar\"]"
     assert_html_to_slim html, slim
   end
 

@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.metadata['homepage_uri'] = s.homepage
   s.metadata['rubygems_mfa_required'] = 'true'
-  s.required_ruby_version = '>= 3.2'
+  s.required_ruby_version = '>= 3.3'
 
   s.add_dependency 'nokogiri'
 end
