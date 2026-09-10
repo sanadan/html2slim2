@@ -5,7 +5,15 @@ class Nokogiri::XML::Text
     str = escape(content)
     return nil if str.strip.empty?
 
-    ('  ' * lvl) + %(| #{str.gsub(/\s+/, ' ')})
+    # A lone text line with no indentation is content, not HTML formatting space.
+    # "\na\n" → "| a"  (not "|  a ")
+    normalized = if str.match?(/\A\n+\S/) && str.match?(/\S\n+\z/)
+                   str.strip.gsub(/\s+/, ' ')
+                 else
+                   str.gsub(/\s+/, ' ')
+                 end
+
+    ('  ' * lvl) + %(| #{normalized})
   end
 
   private
@@ -55,7 +63,10 @@ class Nokogiri::XML::Element
     if children.any?
       %(#{slim(lvl)}\n#{children.filter_map { |c| c.to_slim(lvl + 1) }.join("\n")})
     else
-      slim(lvl)
+      r = slim(lvl)
+      # Empty multiline tags still end with a newline so sibling spacing
+      # matches tags that only contained ignorable whitespace.
+      r.include?("\n") ? "#{r}\n" : r
     end
   end
 
