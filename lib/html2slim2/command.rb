@@ -44,7 +44,7 @@ module HTML2Slim2
       end
 
       opts.on_tail('-v', '--version', 'Print version') do
-        puts "#{command_name} #{HTML2Slim::VERSION}"
+        puts "#{command_name} #{HTML2Slim2::VERSION}"
         exit
       end
 

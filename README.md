@@ -42,7 +42,7 @@ This project is released under the MIT license.
 
 ## Maintained repo
 
-[https://github.com/sanadan/html2slim](https://github.com/sanadan/html2slim)
+[https://github.com/sanadan/html2slim2](https://github.com/sanadan/html2slim2)
 
 ## OFFICIAL REPO
 
