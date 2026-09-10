@@ -8,7 +8,7 @@
 [![Code climate](https://codeclimate.com/github/slim-template/html2slim.png)](https://codeclimate.com/github/slim-template/html2slim)
 -->
 
-Script for converting HTML and ERB files to [slim](http://slim-lang.com/).
+Script for converting HTML and ERB files to [slim](http://slim-template.github.io/).
 
 ## Usage
 
